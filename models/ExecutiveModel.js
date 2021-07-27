@@ -1,6 +1,6 @@
-'use strict';
+`use strict`;
 
-const db = require('./conn');
+const db = require("./conn");
 
 class ExecutiveModel {
     constructor(id, name, slug, year) {
@@ -12,9 +12,7 @@ class ExecutiveModel {
 
     static async getAll() {
         try {
-            const response = await db.any(
-                `SELECT * FROM ceos;`
-            )
+            const response = await db.any(`SELECT * FROM ceos;`);
             return response;
         } catch (error) {
             console.error("ERROR: ", error);
@@ -42,7 +40,7 @@ class ExecutiveModel {
                     (name, slug, first_year_active)
                 VALUES
                     ('${this.name}', '${this.slug}', ${this.year});`
-            )
+            );
             return response;
         } catch (error) {
             console.error("ERROR: ", error);
@@ -52,9 +50,9 @@ class ExecutiveModel {
 
     async deleteEntry() {
         try {
-            const response = await db.result(
-                `DELETE FROM ceos WHERE id = $1;`, [this.id]
-            );
+            const response = await db.result(`DELETE FROM ceos WHERE id = $1;`, [
+                this.id,
+            ]);
             return response;
         } catch (error) {
             console.error("ERROR: ", error);

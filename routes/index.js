@@ -5,32 +5,17 @@ const slugify = require("slugify");
 const router = express.Router();
 const ExecutiveModel = require("../models/ExecutiveModel");
 
-router.get("/:slug?", async(req, res) => {
-    if (!!req.params.slug) {
-        const { slug } = req.params;
-        const theCEO = await ExecutiveModel.getBySlug(slug);
+router.get("/", async(req, res) => {
+    const executiveData = await ExecutiveModel.getAll();
 
-        res.render("template", {
-            locals: {
-                title: "CEO DETAILS",
-                ceo: theCEO,
-            },
-            partials: {
-                body: "partials/ceo_details",
-            },
-        });
-    } else {
-        const executiveData = await ExecutiveModel.getAll();
-        res.render("template", {
-            locals: {
-                title: "Home Page",
-                data: executiveData,
-            },
-            partials: {
-                body: "partials/home",
-            },
-        });
-    }
+    res.json(executiveData);
+});
+
+router.get("/:slug", async(req, res) => {
+    const { slug } = req.params;
+    const theCEO = await ExecutiveModel.getBySlug(slug);
+
+    res.json(theCEO);
 });
 
 router.post("/", async(req, res) => {
